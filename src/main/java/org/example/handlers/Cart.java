@@ -8,6 +8,7 @@ import org.example.objects.Product;
 
 /**
  * @author Kostiantyn Kvartyrmeister on 19.12.2022
+ * Class cart with list of products {@link Product},{@link ProductRepository}
  */
 
 @AllArgsConstructor

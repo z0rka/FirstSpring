@@ -4,17 +4,22 @@ import static java.lang.System.out;
 
 import java.util.Scanner;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.example.handlers.Cart;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 /**
- * @author Kostiantyn Kvartyrmeister on 19.12.2022
+ * @author Kostiantyn Kvartyrmeister on 19.12.2022 Class that controls aplication
  */
 @AllArgsConstructor
 public class ApplicationController {
 
   Cart cart;
 
+
+  /**
+   * Method prints all the products and menu
+   */
   private void menuPrinter() {
     out.println("Product list");
     cart.getRepository().getProductList().forEach(product ->
@@ -24,10 +29,15 @@ public class ApplicationController {
     out.println("0.Exit");
     out.println("1.Add product to cart");
     out.println("2.Delete product from cart");
+    out.println("3.Clear cart");
+    out.println("4.Show products in cart");
     out.println("-".repeat(20));
     out.println("Choose option");
   }
 
+  /**
+   * Method gives user ability to work with cart
+   */
   public void work(Cart cart) {
     int option = 1;
     int id;
@@ -52,6 +62,19 @@ public class ApplicationController {
           out.println("Enter id");
           id = scanner.nextInt();
           cart.deleteById(id);
+          break;
+
+        case 3:
+          String configuration = "src/main/resources/ApplicationContext.xml";
+          ApplicationContext context = new FileSystemXmlApplicationContext(configuration);
+
+          cart = context.getBean("cart", Cart.class);
+          break;
+
+        case 4:
+          out.println("-".repeat(20));
+          cart.getProductList().forEach(a -> out.println(a.getName() + " " + a.getPrice()));
+          out.println("-".repeat(20));
           break;
 
         default:
